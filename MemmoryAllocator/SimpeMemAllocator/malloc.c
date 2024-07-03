@@ -34,8 +34,8 @@ header_t *get_free_block(size_t size) { // Func for get fist free block of memor
 void *malloc(size_t size) {
     if(size < 1)
         return 0;
-    size_t total_size;
-    void *block;
+    size_t total_size; // Total size is full size of block of memory = size of header + requested size
+    void *block; // Pointer at allocated memory
     header_t *header;
 
     header = get_free_block(size);
