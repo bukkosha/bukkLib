@@ -36,6 +36,27 @@ void *malloc(size_t size) {
         return 0;
     size_t total_size;
     void *block;
-    header_t header;
-    
+    header_t *header;
+
+    header = get_free_block(size);
+    if(header != NULL) {
+        header->s.is_free = 0;
+        return (void*)(header + 1);
+    }
+    total_size = sizeof(header_t) + size;
+    block = sbrk(total_size);
+    if(block == (void *) -1)
+        return NULL;
+
+    header = block;
+    header->s.size = size;
+    header->s.is_free = 0;
+    header->s.next = NULL;
+    if(!head)
+        head = header;
+    if(tail)
+        tail->s.next = header;
+    tail = header;
+
+    return (void*)(header + 1);
 }
