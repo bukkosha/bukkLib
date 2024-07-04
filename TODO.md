@@ -7,6 +7,7 @@
   + ~~How to allocate memory for block~~
   + ~~Get access to allocate memory~~
   + ~~If the block free, but his size more then need, what to do?~~
+  + ~~Is "pthread_mutex_lock" need?~~
   
   + Simple memory allocator (By using sbrk)
     + ~~malloc~~
