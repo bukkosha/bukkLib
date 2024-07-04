@@ -15,7 +15,7 @@
       + ~~Create block for keep header and block of memry~~
     + ~~free~~
     + ~~calloc~~
-    + realloc
+    + ~~realloc~~
     + tests
 
   + Memory allocator with mmap
