@@ -16,8 +16,8 @@ typedef union header { // Header of allocated memory block, need for keep size o
     ALIGN stub; // Align header of memory block for easy access to request memory block
 } header_t;
 
-header_t *head, *tail; // Pointers to head and tail of single linked list of allocated memory blocks.
-pthread_mutex_t global_malloc_lock;
+extern header_t *head, *tail; // Pointers to head and tail of single linked list of allocated memory blocks.
+extern pthread_mutex_t global_malloc_lock;
 
 
 header_t *get_free_block(size_t size);

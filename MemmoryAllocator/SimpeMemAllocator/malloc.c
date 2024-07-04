@@ -1,6 +1,9 @@
 #include <stddef.h>
 #include "Allocator.h"
 
+header_t *head, *tail;
+pthread_mutex_t global_malloc_lock;
+
 void *malloc(size_t size) {
     if(size < 1)
         return 0;
