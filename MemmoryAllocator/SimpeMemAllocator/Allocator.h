@@ -22,3 +22,4 @@ extern pthread_mutex_t global_malloc_lock;
 
 header_t *get_free_block(size_t size);
 void *mymalloc(size_t size);
+void myfree(void* block);
