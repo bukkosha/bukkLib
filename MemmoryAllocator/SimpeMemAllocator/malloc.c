@@ -6,7 +6,7 @@ pthread_mutex_t global_malloc_lock;
 
 void *mymalloc(size_t size) {
     if(size < 1)
-        return 0;
+        return NULL;
 //    pthread_mutex_init(&global_malloc_lock, NULL);
     size_t total_size; // Total size is full size of block of memory = size of header + requested size
     void *block; // Pointer at allocated memory

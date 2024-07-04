@@ -1,4 +1,5 @@
 #include <unistd.h>
+#include <string.h>
 #include <pthread.h>
 
 // Allocated block if memory looks like {[header][requested memory]}.
