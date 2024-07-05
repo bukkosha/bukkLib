@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Allocator.h"
 
 void *myrealloc(void *block, size_t size) {
