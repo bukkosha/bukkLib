@@ -9,14 +9,13 @@
   + ~~If the block free, but his size more then need, what to do?~~
   + ~~Is "pthread_mutex_lock" need?~~
   
-  + Simple memory allocator (By using sbrk)
+  + ~~Simple memory allocator (By using sbrk)~~
     + ~~malloc~~
       + ~~Union for header~~
       + ~~Create block for keep header and block of memry~~
     + ~~free~~
     + ~~calloc~~
     + ~~realloc~~
-    + tests
 
   + Memory allocator with mmap
     + malloc

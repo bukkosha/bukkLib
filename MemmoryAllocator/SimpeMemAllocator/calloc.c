@@ -1,5 +1,3 @@
-#pragma once
-
 #include "Allocator.h"
 
 void *mycalloc(size_t nmemb, size_t size) {

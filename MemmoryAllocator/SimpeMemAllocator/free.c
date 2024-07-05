@@ -1,5 +1,3 @@
-#pragma once
-
 #include "Allocator.h"
 #include <unistd.h>
 
