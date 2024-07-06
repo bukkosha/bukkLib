@@ -1,7 +1,7 @@
 #include "Vector.h"
 
 void *VectorInit(size_t initial_capacity, size_t element_size) {
-    if(!initial_capacity || !element_size)
+    if(initial_capacity < 1|| element_size < 1)
         return NULL;
 
     header_t *header;
@@ -18,6 +18,7 @@ void *VectorInit(size_t initial_capacity, size_t element_size) {
 
     header->data.size = 0;
     header->data.capacity = initial_capacity;
+    header->data.element_size = element_size;
 
     return (void*) header + 1;
 }

@@ -6,6 +6,7 @@ typedef union {
     struct {
         size_t size;
         size_t capacity;
+        size_t element_size;
     } data;
     ALIGN stub;
 

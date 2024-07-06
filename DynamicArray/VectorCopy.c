@@ -15,14 +15,14 @@ void *VectorCopy(void *vec) {
     if(!tHeader->data.size || !tHeader->data.capacity)
         return NULL;
 
-    nBlock = VectorInit(tHeader->data.capacity, sizeof(vec[0]));
+    nBlock = VectorInit(tHeader->data.capacity, tHeader->data.element_size);
     
     if(!nBlock)
         return NULL;
 
     nHeader = nBlock;
 
-    if(!memcpy(nBlock, tBlock, sizeof(header_t) + tHeader->data.size * sizeof(vec[0]))) {
+    if(!memcpy(nBlock, tBlock, sizeof(header_t) + tHeader->data.size * tHeader->data.element_size)) {
         VectorFree(nBlock);
         return NULL;
     }
