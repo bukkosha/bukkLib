@@ -1,6 +1,6 @@
 #include "Vector.h"
 
-void *VectorInit(size_t initial_capacity, size_t element_size) {
+void *vector_init(size_t initial_capacity, size_t element_size) {
     if(initial_capacity < 1|| element_size < 1)
         return NULL;
 

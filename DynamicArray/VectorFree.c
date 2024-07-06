@@ -1,5 +1,5 @@
 #include "Vector.h"
 
-void VectorFree(void* Block) {
+void vector_free(void* Block) {
     return free((void*) Block - 1);
 }

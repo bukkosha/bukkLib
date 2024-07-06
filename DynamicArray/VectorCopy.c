@@ -1,7 +1,7 @@
 #include "Vector.h"
 #include <string.h>
 
-void *VectorCopy(void *vec) {
+void *vector_copy(void *vec) {
     if(!vec)
         return NULL;
 
@@ -15,7 +15,7 @@ void *VectorCopy(void *vec) {
     if(!tHeader->data.size || !tHeader->data.capacity)
         return NULL;
 
-    nBlock = VectorInit(tHeader->data.capacity, tHeader->data.element_size);
+    nBlock = vector_init(tHeader->data.capacity, tHeader->data.element_size);
     
     if(!nBlock)
         return NULL;
@@ -23,7 +23,7 @@ void *VectorCopy(void *vec) {
     nHeader = nBlock;
 
     if(!memcpy(nBlock, tBlock, sizeof(header_t) + tHeader->data.size * tHeader->data.element_size)) {
-        VectorFree(nBlock);
+        vector_free(nBlock);
         return NULL;
     }
     
