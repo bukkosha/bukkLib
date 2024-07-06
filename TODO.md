@@ -24,7 +24,7 @@
     - realloc
 
 - DynamicArray
-  - Templates
+  - ~~Templates~~
   - Vector init
   - Vector free
   - Vector copy
