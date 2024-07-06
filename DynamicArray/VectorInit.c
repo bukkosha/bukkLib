@@ -6,11 +6,15 @@ void *VectorInit(size_t initial_capacity, size_t element_size) {
 
     header_t *header;
     size_t total_size;
-    void *block;
+    void *Block;
 
     total_size = sizeof(header_t) + (initial_capacity * element_size);
-    block = malloc(total_size);
-    header = block;
+    Block = malloc(total_size);
+
+    if(!Block)
+        return NULL;
+
+    header = Block;
 
     header->data.size = 0;
     header->data.capacity = initial_capacity;

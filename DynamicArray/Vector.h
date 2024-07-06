@@ -12,4 +12,5 @@ typedef union {
 } header_t;
 
 void *VectorInit(size_t initial_capacity, size_t element_size);
-void VectorFree(void *block);
+void VectorFree(void *Block);
+void *VectorCopy(void *vec);
