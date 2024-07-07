@@ -32,8 +32,6 @@
   - ~~Vector set item~~
   - ~~Vector get size~~
   - ~~Vector get capacity~~
-  - Vector change size
-  - Vector change capacity
   - Vector push back
   - Vector pop back
   - Vector shrink to fit
