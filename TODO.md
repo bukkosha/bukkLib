@@ -25,10 +25,10 @@
 
 - DynamicArray
   - ~~Templates~~
-  - Vector init
-  - Vector free
-  - Vector copy
-  - Vector get item
+  - ~~Vector init~~
+  - ~~Vector free~~
+  - ~~Vector copy~~
+  - ~~Vector get item~~
   - Vector set item
   - Vector get size
   - Vector get capacity
