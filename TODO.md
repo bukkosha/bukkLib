@@ -29,8 +29,8 @@
   - ~~Vector free~~
   - ~~Vector copy~~
   - ~~Vector get item~~
-  - Vector set item
-  - Vector get size
+  - ~~Vector set item~~
+  - ~~Vector get size~~
   - Vector get capacity
   - Vector change size
   - Vector change capacity
