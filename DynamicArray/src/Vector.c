@@ -17,6 +17,19 @@ struct vector {
     void *array;
 };
 
+Vector *vector_create() {
+    Vector *new_vector = malloc(sizeof(Vector));
+    if (!new_vector)
+        return NULL;
+
+    new_vector->data.dataType = UNINITIALIZED;
+    new_vector->data.size = 0;
+    new_vector->data.capacity = 0;
+    new_vector->array = NULL;
+
+    return new_vector;
+}
+
 Vector *vector_init_int(size_t initial_capacity) {
     if (initial_capacity < 1)
         return NULL;
