@@ -1,14 +1,5 @@
-#include <stddef.h>
+#pragma once
 
-typedef enum { UNINITIALIZED, INTEGER, FLOAT, DOUBLE, STRING } types;
+typedef struct vector Vector;
 
-typedef char ALIGN[16];
-
-typedef union {
-    types dataType;
-    struct {
-        size_t size;
-        size_t capacity;
-    } data;
-    ALIGN stub;
-} header_t;
+void vector_free(Vector *vector);
