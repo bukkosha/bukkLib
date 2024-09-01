@@ -1,6 +1,8 @@
 #pragma once
 
+#include <stddef.h>
+
 typedef struct vector Vector;
 
-Vector *vector_create();
-void vector_free(Vector *vector);
+Vector *createVector(size_t initial_capacity);
+void freeVector(Vector *vector);
