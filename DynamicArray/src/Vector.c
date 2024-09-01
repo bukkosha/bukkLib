@@ -40,43 +40,27 @@ void copyVector(Vector *vector, Vector *newVector) {
     if (newVector->data.capacity < vector->data.capacity)
         return;
 
-//    for (int i = 0; i < vector->data.size; i++) {
-//        switch(vector->data.dataType) {
-//            case INTEGER:
-//                // appendToVector(newVector, ((int *)vector->array)[i]);
-//            case FLOAT:
-//                // appendToVector(newVector, ((float *)vector->array)[i]);
-//            case DOUBLE:
-//                // appendToVector(newVector, ((double *)vector->array)[i]);
-//            case STRING:
-//                // appendToVector(newVector, ((char *)vector->array)[i]);
-//            default:
-//                return;
-//        }
-//    }
-
-    ///////////////////////////// OR /////////////////////////////
-
-//    switch(vector->data.dataType) {
-//        case INTEGER:
-//            newVector->array = malloc(newVector->data.capacity * sizeof(int));
-//            newVector->data.dataType = INTEGER;
-//            memcpy(newVector->array, vector->array, vector->data.size * sizeof(int));
-//        case FLOAT:
-//            newVector->array = malloc(newVector->data.capacity * sizeof(float));
-//            newVector->data.dataType = FLOAT;
-//            memcpy(newVector->array, vector->array, vector->data.size * sizeof(float));
-//        case DOUBLE:
-//            newVector->array = malloc(newVector->data.capacity * sizeof(double));
-//        newVector->data.dataType = DOUBLE;
-//        memcpy(newVector->array, vector->array, vector->data.size * sizeof(double));
-//        case STRING:
-//            newVector->array = malloc(newVector->data.capacity * sizeof(char));
-//            newVector->data.dataType = STRING;
-//            memcpy(newVector->array, vector->array, vector->data.size * sizeof(char));
-//        default:
-//            return;
-//    }
+    switch(vector->data.dataType) {
+        case INTEGER:
+            newVector->array = malloc(newVector->data.capacity * sizeof(int));
+            newVector->data.dataType = INTEGER;
+            memcpy(newVector->array, vector->array, vector->data.size * sizeof(int));
+        case FLOAT:
+            newVector->array = malloc(newVector->data.capacity * sizeof(float));
+            newVector->data.dataType = FLOAT;
+            memcpy(newVector->array, vector->array, vector->data.size * sizeof(float));
+        case DOUBLE:
+            newVector->array = malloc(newVector->data.capacity * sizeof(double));
+        newVector->data.dataType = DOUBLE;
+        memcpy(newVector->array, vector->array, vector->data.size * sizeof(double));
+        case STRING:
+            newVector->array = malloc(newVector->data.capacity * sizeof(char));
+            newVector->data.dataType = STRING;
+            memcpy(newVector->array, vector->array, vector->data.size * sizeof(char));
+        default:
+            return;
+    }
+    newVector->data.size = vector->data.size;
 }
 
 void appendToVector_int(Vector *vector, void* data) {
@@ -92,7 +76,7 @@ void appendToVector_int(Vector *vector, void* data) {
         vector->data.dataType = INTEGER;
     }
 
-    else if (vector->data.size == vector->data.capacity) {
+    if (vector->data.size == vector->data.capacity) {
         Vector *newVector = createVector(vector->data.capacity * 2);
         copyVector(vector, newVector);
         freeVector(vector);
@@ -114,6 +98,12 @@ void appendToVector_float(Vector *vector, void* data) {
         }
         vector->data.dataType = FLOAT;
     }
+    if (vector->data.size == vector->data.capacity) {
+        Vector *newVector = createVector(vector->data.capacity * 2);
+        copyVector(vector, newVector);
+        freeVector(vector);
+        vector = newVector;
+    }
     *((float *)vector->array + vector->data.size) = *(float *)data;
     vector->data.size++;
 }
@@ -130,6 +120,12 @@ void appendToVector_double(Vector *vector, void* data) {
         }
         vector->data.dataType = DOUBLE;
     }
+    if (vector->data.size == vector->data.capacity) {
+        Vector *newVector = createVector(vector->data.capacity * 2);
+        copyVector(vector, newVector);
+        freeVector(vector);
+        vector = newVector;
+    }
     *((double *)vector->array + vector->data.size) = *(double *)data;
     vector->data.size++;
 }
@@ -145,6 +141,12 @@ void appendToVector_string(Vector *vector, void* data) {
             return;
         }
         vector->data.dataType = STRING;
+    }
+    if (vector->data.size == vector->data.capacity) {
+        Vector *newVector = createVector(vector->data.capacity * 2);
+        copyVector(vector, newVector);
+        freeVector(vector);
+        vector = newVector;
     }
     *((char *)vector->array + vector->data.size) = *(char *)data;
     vector->data.size++;
