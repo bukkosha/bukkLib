@@ -3,6 +3,7 @@
 #include "../include/Vector.h"
 
 #include <stddef.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -15,15 +16,13 @@ struct vector {
         size_t size;
         size_t capacity;
     } data;
-    void *array;
+    void* array;
 };
 
-Vector *createVector(size_t initial_capacity) {
-    if (initial_capacity < 1)
-        return NULL;
-    Vector *new_vector = malloc(sizeof(Vector));
-    if (!new_vector)
-        return NULL;
+Vector* createVector(size_t initial_capacity) {
+    if (initial_capacity < 1) return NULL;
+    Vector* new_vector = malloc(sizeof(Vector));
+    if (!new_vector) return NULL;
 
     new_vector->data.dataType = UNINITIALIZED;
     new_vector->data.size = 0;
@@ -33,39 +32,50 @@ Vector *createVector(size_t initial_capacity) {
     return new_vector;
 }
 
-void copyVector(Vector *vector, Vector *newVector) {
-    if (!vector || !newVector)
-        return;
+void copyVector(Vector* vector, Vector* newVector) {
+    if (!vector || !newVector) return;
 
-    if (newVector->data.capacity < vector->data.capacity)
-        return;
+    if (newVector->data.capacity < vector->data.capacity) return;
 
-    switch(vector->data.dataType) {
+    switch (vector->data.dataType) {
         case INTEGER:
             newVector->array = malloc(newVector->data.capacity * sizeof(int));
             newVector->data.dataType = INTEGER;
-            memcpy(newVector->array, vector->array, vector->data.size * sizeof(int));
+            memcpy(
+                newVector->array, vector->array,
+                vector->data.size * sizeof(int));
+            break;
         case FLOAT:
             newVector->array = malloc(newVector->data.capacity * sizeof(float));
             newVector->data.dataType = FLOAT;
-            memcpy(newVector->array, vector->array, vector->data.size * sizeof(float));
+            memcpy(
+                newVector->array, vector->array,
+                vector->data.size * sizeof(float));
+            break;
         case DOUBLE:
-            newVector->array = malloc(newVector->data.capacity * sizeof(double));
-        newVector->data.dataType = DOUBLE;
-        memcpy(newVector->array, vector->array, vector->data.size * sizeof(double));
+            newVector->array =
+                malloc(newVector->data.capacity * sizeof(double));
+            newVector->data.dataType = DOUBLE;
+            memcpy(
+                newVector->array, vector->array,
+                vector->data.size * sizeof(double));
+            break;
         case STRING:
             newVector->array = malloc(newVector->data.capacity * sizeof(char));
             newVector->data.dataType = STRING;
-            memcpy(newVector->array, vector->array, vector->data.size * sizeof(char));
+            memcpy(
+                newVector->array, vector->array,
+                vector->data.size * sizeof(char));
+            break;
         default:
             return;
     }
+    newVector->data.dataType = vector->data.dataType;
     newVector->data.size = vector->data.size;
 }
 
-void appendToVector_int(Vector *vector, void* data) {
-    if (!vector || !data)
-        return;
+void appendToVector_int(Vector* vector, void* data) {
+    if (!vector || !data) return;
 
     if (vector->data.dataType == UNINITIALIZED) {
         vector->array = malloc(vector->data.capacity * sizeof(int));
@@ -77,18 +87,19 @@ void appendToVector_int(Vector *vector, void* data) {
     }
 
     if (vector->data.size == vector->data.capacity) {
-        Vector *newVector = createVector(vector->data.capacity * 2);
+        Vector* newVector = createVector(vector->data.capacity * 2);
         copyVector(vector, newVector);
         freeVector(vector);
-        vector = newVector;
+        memcpy(vector, newVector, sizeof(Vector));
+        free(newVector);
     }
-    *((int *)vector->array + vector->data.size) = *(int *)data;
+    ((int*)vector->array)[vector->data.size] = *(int*)data;
     vector->data.size++;
+
 }
 
-void appendToVector_float(Vector *vector, void* data) {
-    if (!vector || !data)
-        return;
+void appendToVector_float(Vector* vector, void* data) {
+    if (!vector || !data) return;
 
     if (vector->data.dataType == UNINITIALIZED) {
         vector->array = malloc(vector->data.capacity * sizeof(float));
@@ -99,18 +110,17 @@ void appendToVector_float(Vector *vector, void* data) {
         vector->data.dataType = FLOAT;
     }
     if (vector->data.size == vector->data.capacity) {
-        Vector *newVector = createVector(vector->data.capacity * 2);
+        Vector* newVector = createVector(vector->data.capacity * 2);
         copyVector(vector, newVector);
         freeVector(vector);
         vector = newVector;
     }
-    *((float *)vector->array + vector->data.size) = *(float *)data;
+    *((float*)vector->array + vector->data.size) = *(float*)data;
     vector->data.size++;
 }
 
-void appendToVector_double(Vector *vector, void* data) {
-    if (!vector || !data)
-        return;
+void appendToVector_double(Vector* vector, void* data) {
+    if (!vector || !data) return;
 
     if (vector->data.dataType == UNINITIALIZED) {
         vector->array = malloc(vector->data.capacity * sizeof(double));
@@ -121,18 +131,17 @@ void appendToVector_double(Vector *vector, void* data) {
         vector->data.dataType = DOUBLE;
     }
     if (vector->data.size == vector->data.capacity) {
-        Vector *newVector = createVector(vector->data.capacity * 2);
+        Vector* newVector = createVector(vector->data.capacity * 2);
         copyVector(vector, newVector);
         freeVector(vector);
         vector = newVector;
     }
-    *((double *)vector->array + vector->data.size) = *(double *)data;
+    *((double*)vector->array + vector->data.size) = *(double*)data;
     vector->data.size++;
 }
 
-void appendToVector_string(Vector *vector, void* data) {
-    if (!vector || !data)
-        return;
+void appendToVector_string(Vector* vector, void* data) {
+    if (!vector || !data) return;
 
     if (vector->data.dataType == UNINITIALIZED) {
         vector->array = malloc(vector->data.capacity * sizeof(char));
@@ -143,16 +152,45 @@ void appendToVector_string(Vector *vector, void* data) {
         vector->data.dataType = STRING;
     }
     if (vector->data.size == vector->data.capacity) {
-        Vector *newVector = createVector(vector->data.capacity * 2);
+        Vector* newVector = createVector(vector->data.capacity * 2);
         copyVector(vector, newVector);
         freeVector(vector);
         vector = newVector;
     }
-    *((char *)vector->array + vector->data.size) = *(char *)data;
+    *((char*)vector->array + vector->data.size) = *(char*)data;
     vector->data.size++;
 }
 
-void vector_free(Vector *vector) {
+void printVector(Vector* vector) {
+    if (!vector || !vector->array) return;
+    int count = 0;
+
+    printf("{ ");
+    for (int i = 0; i < vector->data.size; i++) {
+        if (count) printf(", ");
+        count |= 1;
+        switch (vector->data.dataType) {
+            case INTEGER:
+                printf("%i", ((int*)vector->array)[i]);
+                break;
+            case FLOAT:
+                printf("%f", ((float*)vector->array)[i]);
+                break;
+            case DOUBLE:
+                printf("%lf", ((double*)vector->array)[i]);
+                break;
+            case STRING:
+                printf("%s", ((char*)vector->array));
+                break;
+            default:
+                printf("NULL");
+                return;
+            }
+    }
+    printf(" }\n");
+}
+
+void freeVector(Vector* vector) {
     if (vector->data.dataType == UNINITIALIZED) {
         free(vector);
         return;
