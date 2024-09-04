@@ -2,6 +2,7 @@
 
 #include "../include/Vector.h"
 
+#include <malloc.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -70,7 +71,6 @@ void copyVector(Vector* vector, Vector* newVector) {
         default:
             return;
     }
-    newVector->data.dataType = vector->data.dataType;
     newVector->data.size = vector->data.size;
 }
 
@@ -88,14 +88,10 @@ void appendToVector_int(Vector* vector, void* data) {
 
     if (vector->data.size == vector->data.capacity) {
         Vector* newVector = createVector(vector->data.capacity * 2);
-        copyVector(vector, newVector);
-        freeVector(vector);
-        memcpy(vector, newVector, sizeof(Vector));
-        free(newVector);
+        // Make vector = newVector
     }
     ((int*)vector->array)[vector->data.size] = *(int*)data;
     vector->data.size++;
-
 }
 
 void appendToVector_float(Vector* vector, void* data) {
@@ -185,7 +181,7 @@ void printVector(Vector* vector) {
             default:
                 printf("NULL");
                 return;
-            }
+        }
     }
     printf(" }\n");
 }
