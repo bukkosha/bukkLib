@@ -88,7 +88,9 @@ void appendToVector_int(Vector* vector, void* data) {
 
     if (vector->data.size == vector->data.capacity) {
         Vector* newVector = createVector(vector->data.capacity * 2);
-        // Make vector = newVector
+        copyVector(vector, newVector);
+        *vector = *newVector;
+        freeVector(newVector);
     }
     ((int*)vector->array)[vector->data.size] = *(int*)data;
     vector->data.size++;
