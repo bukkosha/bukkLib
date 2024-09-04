@@ -2,7 +2,6 @@
 
 #include "../include/Vector.h"
 
-#include <malloc.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -86,11 +85,12 @@ void appendToVector_int(Vector* vector, void* data) {
         vector->data.dataType = INTEGER;
     }
 
-    if (vector->data.size == vector->data.capacity) {
-        Vector* newVector = createVector(vector->data.capacity * 2);
-        copyVector(vector, newVector);
-        *vector = *newVector;
-        freeVector(newVector);
+    if (vector->data.size >= vector->data.capacity) {
+        size_t new_capacity = vector->data.capacity * 2;
+        void *new_array = (int *)realloc(vector->array, new_capacity * sizeof(int));
+        if (!new_array) return;
+        vector->data.capacity = new_capacity;
+        vector->array = new_array;
     }
     ((int*)vector->array)[vector->data.size] = *(int*)data;
     vector->data.size++;
