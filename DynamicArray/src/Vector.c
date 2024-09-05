@@ -107,11 +107,12 @@ void appendToVector_float(Vector* vector, void* data) {
         }
         vector->data.dataType = FLOAT;
     }
-    if (vector->data.size == vector->data.capacity) {
-        Vector* newVector = createVector(vector->data.capacity * 2);
-        copyVector(vector, newVector);
-        freeVector(vector);
-        vector = newVector;
+    if (vector->data.size >= vector->data.capacity) {
+        size_t new_capacity = vector->data.capacity * 2;
+        void *new_array = (float *)realloc(vector->array, new_capacity * sizeof(float));
+        if (!new_array) return;
+        vector->data.capacity = new_capacity;
+        vector->array = new_array;
     }
     *((float*)vector->array + vector->data.size) = *(float*)data;
     vector->data.size++;
@@ -128,11 +129,12 @@ void appendToVector_double(Vector* vector, void* data) {
         }
         vector->data.dataType = DOUBLE;
     }
-    if (vector->data.size == vector->data.capacity) {
-        Vector* newVector = createVector(vector->data.capacity * 2);
-        copyVector(vector, newVector);
-        freeVector(vector);
-        vector = newVector;
+    if (vector->data.size >= vector->data.capacity) {
+        size_t new_capacity = vector->data.capacity * 2;
+        void *new_array = (double *)realloc(vector->array, new_capacity * sizeof(double));
+        if (!new_array) return;
+        vector->data.capacity = new_capacity;
+        vector->array = new_array;
     }
     *((double*)vector->array + vector->data.size) = *(double*)data;
     vector->data.size++;
@@ -149,11 +151,12 @@ void appendToVector_string(Vector* vector, void* data) {
         }
         vector->data.dataType = STRING;
     }
-    if (vector->data.size == vector->data.capacity) {
-        Vector* newVector = createVector(vector->data.capacity * 2);
-        copyVector(vector, newVector);
-        freeVector(vector);
-        vector = newVector;
+    if (vector->data.size >= vector->data.capacity) {
+        size_t new_capacity = vector->data.capacity * 2;
+        void *new_array = (char *)realloc(vector->array, new_capacity * sizeof(char));
+        if (!new_array) return;
+        vector->data.capacity = new_capacity;
+        vector->array = new_array;
     }
     *((char*)vector->array + vector->data.size) = *(char*)data;
     vector->data.size++;
