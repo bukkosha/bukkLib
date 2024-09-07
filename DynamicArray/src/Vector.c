@@ -162,6 +162,12 @@ void appendToVector_string(Vector* vector, void* data) {
     vector->data.size++;
 }
 
+int getFromVector(Vector *vector, size_t index) {
+    if (!vector || vector->data.dataType == UNINITIALIZED || index >= vector->data.size) return 0;
+
+    return ((int*)vector->array)[index];
+}
+
 void printVector(Vector* vector) {
     if (!vector || !vector->array) return;
     int count = 0;

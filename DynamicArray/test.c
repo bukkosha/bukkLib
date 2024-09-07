@@ -7,6 +7,8 @@ int main(void) {
         appendToVector(vector, i);
     }
 
+    printf("\n\n\n%i\n\n\n", getFromVector(vector, 1));
+
     printVector(vector);
     freeVector(vector);
 }
