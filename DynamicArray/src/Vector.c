@@ -238,6 +238,41 @@ void popVectorBack(Vector *vector) {
     vector->data.size--;
 }
 
+void shrinkToFitVector(Vector *vector) {
+    if (vector->data.capacity < vector->data.size || vector->data.capacity == vector->data.size) return;
+
+    switch(vector->data.dataType) {
+        case INTEGER:
+            void *new_array = (int *)realloc(vector->array, vector->data.size * sizeof(int));
+            if (!new_array) return;
+            vector->data.capacity = vector->data.size;
+            vector->array = new_array;
+        case FLOAT:
+            void *new_array = (float *)realloc(vector->array, vector->data.size * sizeof(float));
+            if (!new_array) return;
+            vector->data.capacity = vector->data.size;
+            vector->array = new_array;
+        case DOUBLE:
+            void *new_array = (double *)realloc(vector->array, vector->data.size * sizeof(double));
+            if (!new_array) return;
+            vector->data.capacity = vector->data.size;
+            vector->array = new_array;
+        case STRING:
+            void *new_array = (char *)realloc(vector->array, vector->data.size * sizeof(char));
+            if (!new_array) return;
+            vector->data.capacity = vector->data.size;
+            vector->array = new_array;
+    }
+}
+
+void resizeVector(Vector *vector, size_t newSize) {
+    if (!vector || newSize < 0 || newSize == vector->data.size) return;
+
+    if (vector->data.size > newSize) {
+        vector->data.size = newSize;
+    }
+}
+
 void printVector(Vector* vector) {
     if (!vector || !vector->array) return;
     int count = 0;
