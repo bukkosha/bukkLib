@@ -7,7 +7,9 @@ int main(void) {
         appendToVector(vector, i);
     }
 
-    printf("\n\n\n%i\n\n\n", getFromVector(vector, 1));
+    int x = *(int*)vectorGetItem(vector, 5);
+
+    printf("\n\n\n%i\n\n\n", x);
 
     printVector(vector);
     freeVector(vector);

@@ -21,7 +21,7 @@ void appendToVector_string(Vector*, void*);
         /* char*: appendToVector_string((X), ((void*)Y)),  */ \
         default: fprintf(stderr, "Unknown Type Passed To Append\n"))
 
-int getFromVector(Vector*, size_t);
+void *vectorGetItem(Vector*, size_t);
 
 void printVector(Vector*);
 void freeVector(Vector*);

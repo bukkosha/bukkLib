@@ -162,10 +162,13 @@ void appendToVector_string(Vector* vector, void* data) {
     vector->data.size++;
 }
 
-int getFromVector(Vector *vector, size_t index) {
-    if (!vector || vector->data.dataType == UNINITIALIZED || index >= vector->data.size) return 0;
+void *vectorGetItem(Vector *vector, size_t index) {
+    if (!vector || vector->data.dataType == UNINITIALIZED || index >= vector->data.size || index < 0) {
+        printf("Wrong vector or index!\n");
+        return NULL;
+    }
 
-    return ((int*)vector->array)[index];
+    return (vector->array + (index * sizeof(int)));
 }
 
 void printVector(Vector* vector) {
