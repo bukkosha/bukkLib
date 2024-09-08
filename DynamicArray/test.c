@@ -11,6 +11,9 @@ int main(void) {
 
     printf("\n\n\n%i\n\n\n", x);
 
+    int d = 12;
+    setVectorItem(vector, 5, d);
+
     printVector(vector);
     freeVector(vector);
 }

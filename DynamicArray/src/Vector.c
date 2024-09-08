@@ -168,7 +168,74 @@ void *vectorGetItem(Vector *vector, size_t index) {
         return NULL;
     }
 
+    vector->data.size--;
     return (vector->array + (index * sizeof(int)));
+}
+
+void setVectorItem_int(Vector *vector, size_t index, void *data) {
+    if (!vector) return;
+
+    if (vector->data.dataType == UNINITIALIZED && index == 0)
+        appendToVector(vector, *(int*)data);
+
+    else if (vector->data.dataType == UNINITIALIZED && index != 0) return;
+
+    ((int*)vector->array)[index] = *(int*)data;
+}
+
+void setVectorItem_float(Vector *vector, size_t index, void *data) {
+    if (!vector) return;
+
+    if (vector->data.dataType == UNINITIALIZED && index == 0)
+        appendToVector(vector, *(float*)data);
+
+    else if (vector->data.dataType == UNINITIALIZED && index != 0) return;
+
+    ((float*)vector->array)[index] = *(float*)data;
+}
+
+void setVectorItem_double(Vector *vector, size_t index, void *data) {
+    if (!vector) return;
+
+    if (vector->data.dataType == UNINITIALIZED && index == 0)
+        appendToVector(vector, *(double*)data);
+
+    else if (vector->data.dataType == UNINITIALIZED && index != 0) return;
+
+    ((double*)vector->array)[index] = *(double*)data;
+}
+
+// void setVectorItem_string(Vector *vector, size_t index, char *value) {
+//     if (!vector) return;
+
+//     if (vector->data.dataType == UNINITIALIZED && index == 0)
+//         appendToVector(vector, value);
+
+//     else if (vector->data.dataType == UNINITIALIZED && index != 0) return;
+
+//     ((char*)vector->array)[index] = value;
+// }
+
+size_t getVectorSize(Vector *vector) { return vector->data.size; }
+
+size_t getVectorCapacity(Vector *vector) { return vector->data.capacity; }
+
+void popVectorBack(Vector *vector) {
+    if (!vector || vector->data.dataType == UNINITIALIZED || vector->data.size < 1) return;
+
+    switch(vector->data.dataType) {
+        case INTEGER:
+            ((int*)vector->array)[vector->data.size - 1] = 0;
+        case FLOAT:
+            ((float*)vector->array)[vector->data.size - 1] = 0;
+        case DOUBLE:
+            ((double*)vector->array)[vector->data.size - 1] = 0;
+        case STRING:
+            ((char*)vector->array)[vector->data.size - 1] = 0;
+        default:
+            return;
+    }
+    vector->data.size--;
 }
 
 void printVector(Vector* vector) {
