@@ -168,7 +168,6 @@ void *vectorGetItem(Vector *vector, size_t index) {
         return NULL;
     }
 
-    vector->data.size--;
     return (vector->array + (index * sizeof(int)));
 }
 
@@ -226,12 +225,16 @@ void popVectorBack(Vector *vector) {
     switch(vector->data.dataType) {
         case INTEGER:
             ((int*)vector->array)[vector->data.size - 1] = 0;
+            break;
         case FLOAT:
             ((float*)vector->array)[vector->data.size - 1] = 0;
+            break;
         case DOUBLE:
             ((double*)vector->array)[vector->data.size - 1] = 0;
+            break;
         case STRING:
             ((char*)vector->array)[vector->data.size - 1] = 0;
+            break;
         default:
             return;
     }
@@ -241,28 +244,29 @@ void popVectorBack(Vector *vector) {
 void shrinkToFitVector(Vector *vector) {
     if (vector->data.capacity < vector->data.size || vector->data.capacity == vector->data.size) return;
 
+    void *newArray;
     switch(vector->data.dataType) {
         case INTEGER:
-            void *new_array = (int *)realloc(vector->array, vector->data.size * sizeof(int));
-            if (!new_array) return;
-            vector->data.capacity = vector->data.size;
-            vector->array = new_array;
+            newArray = (int *)realloc(vector->array, vector->data.size * sizeof(int));
+            if (!newArray) return;
+            break;
         case FLOAT:
-            void *new_array = (float *)realloc(vector->array, vector->data.size * sizeof(float));
-            if (!new_array) return;
-            vector->data.capacity = vector->data.size;
-            vector->array = new_array;
+            newArray = (float *)realloc(vector->array, vector->data.size * sizeof(float));
+            if (!newArray) return;
+            break;
         case DOUBLE:
-            void *new_array = (double *)realloc(vector->array, vector->data.size * sizeof(double));
-            if (!new_array) return;
-            vector->data.capacity = vector->data.size;
-            vector->array = new_array;
+            newArray = (double *)realloc(vector->array, vector->data.size * sizeof(double));
+            if (!newArray) return;
+            break;
         case STRING:
-            void *new_array = (char *)realloc(vector->array, vector->data.size * sizeof(char));
-            if (!new_array) return;
-            vector->data.capacity = vector->data.size;
-            vector->array = new_array;
+            newArray = (char *)realloc(vector->array, vector->data.size * sizeof(char));
+            if (!newArray) return;
+            break;
+        default:
+            return;
     }
+    vector->data.capacity = vector->data.size;
+    vector->array = newArray;
 }
 
 void resizeVector(Vector *vector, size_t newSize) {
@@ -286,28 +290,30 @@ void resizeVector(Vector *vector, size_t newSize) {
 void reserveVector(Vector *vector, size_t newCapacity) {
     if (!vector || newCapacity <= vector->data.capacity) return;
 
+    void *newArray;
     switch(vector->data.dataType) {
         case INTEGER:
-            void *new_array = (int *)realloc(vector->array, newCapacity * sizeof(int));
-            if (!new_array) return;
-            vector->data.capacity = newCapacity;
-            vector->array = new_array;
+            newArray = (int *)realloc(vector->array, newCapacity * sizeof(int));
+            if (!newArray) return;
+            break;
+
         case FLOAT:
-            void *new_array = (float *)realloc(vector->array, newCapacity * sizeof(float));
-            if (!new_array) return;
-            vector->data.capacity = newCapacity;
-            vector->array = new_array;
+            newArray = (float *)realloc(vector->array, newCapacity * sizeof(float));
+            if (!newArray) return;
+            break;
         case DOUBLE:
-            void *new_array = (double *)realloc(vector->array, newCapacity * sizeof(double));
-            if (!new_array) return;
-            vector->data.capacity = newCapacity;
-            vector->array = new_array;
+            newArray = (double *)realloc(vector->array, newCapacity * sizeof(double));
+            if (!newArray) return;
+            break;
         case STRING:
-            void *new_array = (char *)realloc(vector->array, newCapacity * sizeof(char));
-            if (!new_array) return;
-            vector->data.capacity = newCapacity;
-            vector->array = new_array;
+            newArray = (char *)realloc(vector->array, newCapacity * sizeof(char));
+            if (!newArray) return;
+            break;
+        default:
+            return;
     }
+    vector->data.capacity = newCapacity;
+    vector->array = newArray;
 }
 
 void printVector(Vector* vector) {
