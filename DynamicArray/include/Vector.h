@@ -39,6 +39,9 @@ void setVectorItem_string(Vector*, size_t, void*);
 size_t getVectorSize(Vector*);
 size_t getVectorCapacity(Vector*);
 void popVectorBack(Vector*);
+void shrinkToFitVector(Vector*);
+void resizeVector(Vector*, size_t);
+void reserveVector(Vector*, size_t);
 
 void printVector(Vector*);
 void freeVector(Vector*);

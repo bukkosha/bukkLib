@@ -270,6 +270,43 @@ void resizeVector(Vector *vector, size_t newSize) {
 
     if (vector->data.size > newSize) {
         vector->data.size = newSize;
+        shrinkToFitVector(vector);
+        return;
+    }
+
+    if (vector->data.size < newSize) {
+        int diff = newSize - vector->data.size;
+        int zero = 0;
+        for (int i = 0; i < diff; i++) {
+            appendToVector(vector, zero);
+        }
+    }
+}
+
+void reserveVector(Vector *vector, size_t newCapacity) {
+    if (!vector || newCapacity <= vector->data.capacity) return;
+
+    switch(vector->data.dataType) {
+        case INTEGER:
+            void *new_array = (int *)realloc(vector->array, newCapacity * sizeof(int));
+            if (!new_array) return;
+            vector->data.capacity = newCapacity;
+            vector->array = new_array;
+        case FLOAT:
+            void *new_array = (float *)realloc(vector->array, newCapacity * sizeof(float));
+            if (!new_array) return;
+            vector->data.capacity = newCapacity;
+            vector->array = new_array;
+        case DOUBLE:
+            void *new_array = (double *)realloc(vector->array, newCapacity * sizeof(double));
+            if (!new_array) return;
+            vector->data.capacity = newCapacity;
+            vector->array = new_array;
+        case STRING:
+            void *new_array = (char *)realloc(vector->array, newCapacity * sizeof(char));
+            if (!new_array) return;
+            vector->data.capacity = newCapacity;
+            vector->array = new_array;
     }
 }
 
