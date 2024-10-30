@@ -1,16 +1,18 @@
 #include "include/Vector.h"
 
 int main(void) {
+    printf("----------INT---------\n");
+    printf("Ceated vector for 3 elememnts and apending 13 elements inside: \n");
     Vector* vector = createVector(3);
+    printf("Vector capacity = %zu\n", getVectorCapacity(vector));
 
     for (int i = 0; i < 13; i++) {
         appendToVector(vector, i);
     }
-    printf("Ceated vector for 3 elememnts and apending 13 elements inside: \n");
     printVector(vector);
 
     int x = *(int*)vectorGetItem(vector, 5);
-    printf("Geted 5-th element form vector: %i\n", x);
+    printf("Geted 5-th element from vector: %i\n", x);
     printVector(vector);
 
     int d = 12;
