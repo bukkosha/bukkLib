@@ -1,23 +1,27 @@
 #include "include/Vector.h"
 
 int main(void) {
-    printf("----------INT---------\n");
-    printf("Ceated vector for 3 elememnts and apending 13 elements inside: \n");
-    Vector* vector = createVector(3);
+    printf("----------char---------\n");
+    printf("Ceated vector for 5 elememnts and apending Hello: \n");
+    Vector* vector = createVector(5);
     printf("Vector capacity = %zu\n", getVectorCapacity(vector));
 
-    for (int i = 0; i < 13; i++) {
-        appendToVector(vector, i);
-    }
+    char ds[] = "Hello";
+    appendToVector(vector, ds);
+    printf("Vector size = %zu\n", getVectorSize(vector));
     printVector(vector);
 
-    int x = *(int*)vectorGetItem(vector, 5);
+    int x = *(int*)vectorGetItem(vector, 4);
     printf("Geted 5-th element from vector: %i\n", x);
     printVector(vector);
 
-    int d = 12;
+    char *d = "R";
     setVectorItem(vector, 5, d);
     printf("Seted 5-th element to 12:\n");
+    printVector(vector);
+
+    printf("Append second word WORLD\n");
+    appendToVector(vector, "World");
     printVector(vector);
 
     printf("Vector size = %zu\n", getVectorSize(vector));

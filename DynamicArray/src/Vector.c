@@ -88,7 +88,10 @@ void appendToVector_int(Vector* vector, void* data) {
     if (vector->data.size >= vector->data.capacity) {
         size_t new_capacity = vector->data.capacity * 2;
         void *new_array = (int *)realloc(vector->array, new_capacity * sizeof(int));
-        if (!new_array) return;
+        if (!new_array) {
+            freeVector(vector);
+            return;
+        }
         vector->data.capacity = new_capacity;
         vector->array = new_array;
     }
@@ -110,7 +113,10 @@ void appendToVector_float(Vector* vector, void* data) {
     if (vector->data.size >= vector->data.capacity) {
         size_t new_capacity = vector->data.capacity * 2;
         void *new_array = (float *)realloc(vector->array, new_capacity * sizeof(float));
-        if (!new_array) return;
+        if (!new_array) {
+            freeVector(vector);
+            return;
+        }
         vector->data.capacity = new_capacity;
         vector->array = new_array;
     }
@@ -132,7 +138,10 @@ void appendToVector_double(Vector* vector, void* data) {
     if (vector->data.size >= vector->data.capacity) {
         size_t new_capacity = vector->data.capacity * 2;
         void *new_array = (double *)realloc(vector->array, new_capacity * sizeof(double));
-        if (!new_array) return;
+        if (!new_array) {
+            freeVector(vector);
+            return;
+        }
         vector->data.capacity = new_capacity;
         vector->array = new_array;
     }
@@ -152,12 +161,40 @@ void appendToVector_string(Vector* vector, void* data) {
         vector->data.dataType = STRING;
     }
     for (int i = 0; i < strlen((char*)data); i++) {
-        if (/* If last char is \0 */) {
-            // change it to space
+        // if copacity ends
+        if (vector->data.size >= vector->data.capacity) {
+            size_t new_capacity = vector->data.capacity * 2;
+            void *new_array = (char *)realloc(vector->array, new_capacity * sizeof(char));
+            if (!new_array) {
+                freeVector(vector);
+                return;
+            }
+            vector->data.capacity = new_capacity;
+            vector->array = new_array;
+        }
+        // if last char is \0 change it to space
+        if (*((char*)vector->array + vector->data.size) == '\0') {
+            *((char*)vector->array + vector->data.size) = ' ';
+            vector->data.size++;
         }
         // add char to array
-
+        *((char*)vector->array + vector->data.size) = *((char*)data + i);
+        vector->data.size++;
+    }
+    if (((char*)vector->array)[vector->data.size] != '\0') {
+        if (vector->data.size >= vector->data.capacity) {
+            size_t new_capacity = vector->data.capacity * 2;
+            void *new_array = (char *)realloc(vector->array, new_capacity * sizeof(char));
+            if (!new_array) {
+                freeVector(vector);
+                return;
+            }
+            vector->data.capacity = new_capacity;
+            vector->array = new_array;
+        }
         // add \0 to end
+        *((char*)vector->array + vector->data.size) = '\0';
+        vector->data.size++;
     }
 }
 
@@ -203,16 +240,46 @@ void setVectorItem_double(Vector *vector, size_t index, void *data) {
     ((double*)vector->array)[index] = *(double*)data;
 }
 
-// void setVectorItem_string(Vector *vector, size_t index, char *value) {
-//     if (!vector) return;
+void setVectorItem_string(Vector *vector, size_t index, void *data) {
+    if (!vector) return;
 
-//     if (vector->data.dataType == UNINITIALIZED && index == 0)
-//         appendToVector(vector, value);
+    if (vector->data.dataType == UNINITIALIZED && index == 0)
+        appendToVector(vector, *(char*)data);
 
-//     else if (vector->data.dataType == UNINITIALIZED && index != 0) return;
+    else if (vector->data.dataType == UNINITIALIZED && index != 0) return;
 
-//     ((char*)vector->array)[index] = value;
-// }
+    for (int i = 0; i < strlen((char*)data); i++) {
+        // if copacity ends
+        if (vector->data.size >= vector->data.capacity) {
+            size_t new_capacity = vector->data.capacity * 2;
+            void *new_array = (char *)realloc(vector->array, new_capacity * sizeof(char));
+            if (!new_array) {
+                freeVector(vector);
+                return;
+            }
+            vector->data.capacity = new_capacity;
+            vector->array = new_array;
+        }
+        // add char to array
+        *((char*)vector->array + (index + i)) = *((char*)data + i);
+        if ((index + i) > vector->data.size) vector->data.size++;
+    }
+    if (((char*)vector->array)[vector->data.size] != '\0') {
+        if (vector->data.size >= vector->data.capacity) {
+            size_t new_capacity = vector->data.capacity * 2;
+            void *new_array = (char *)realloc(vector->array, new_capacity * sizeof(char));
+            if (!new_array) {
+                freeVector(vector);
+                return;
+            }
+            vector->data.capacity = new_capacity;
+            vector->array = new_array;
+        }
+        // add \0 to end
+        *((char*)vector->array + vector->data.size) = '\0';
+        vector->data.size++;
+    }
+}
 
 size_t getVectorSize(Vector *vector) { return vector->data.size; }
 
@@ -232,7 +299,7 @@ void popVectorBack(Vector *vector) {
             ((double*)vector->array)[vector->data.size - 1] = 0;
             break;
         case STRING:
-            ((char*)vector->array)[vector->data.size - 1] = 0;
+            ((char*)vector->array)[vector->data.size - 1] = '\0';
             break;
         default:
             return;
@@ -321,6 +388,9 @@ void printVector(Vector* vector) {
 
     printf("{ ");
     for (int i = 0; i < vector->data.size; i++) {
+        if (vector->data.dataType == STRING) {
+            i = vector->data.size;
+        }
         if (count) printf(", ");
         count |= 1;
         switch (vector->data.dataType) {

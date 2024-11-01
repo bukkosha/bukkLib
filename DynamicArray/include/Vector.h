@@ -18,7 +18,7 @@ void appendToVector_string(Vector*, void*);
         int: appendToVector_int((X), ((void*)&Y)),       \
         float: appendToVector_float((X), ((void*)&Y)),   \
         double: appendToVector_double((X), ((void*)&Y)), \
-        /* char*: appendToVector_string((X), ((void*)Y)),  */ \
+        char*: appendToVector_string((X), ((void*)Y)),   \
         default: fprintf(stderr, "Unknown Type Passed To Append\n"))
 
 void *vectorGetItem(Vector*, size_t);
@@ -28,12 +28,12 @@ void setVectorItem_float(Vector*, size_t, void*);
 void setVectorItem_double(Vector*, size_t, void*);
 void setVectorItem_string(Vector*, size_t, void*);
 
-#define setVectorItem(X, Y, Z)                             \
-    _Generic((Z),                                        \
+#define setVectorItem(X, Y, Z)                               \
+    _Generic((Z),                                            \
         int: setVectorItem_int((X), (Y), ((void*)&Z)),       \
         float: setVectorItem_float((X), (Y), ((void*)&Z)),   \
         double: setVectorItem_double((X), (Y), ((void*)&Z)), \
-        /* char*: setVectorItem_string((X), (Y), ((void*)Z)),  */ \
+        char*: setVectorItem_string((X), (Y), ((void*)Z)),   \
         default: fprintf(stderr, "Unknown Type Passed To Append\n"))
 
 size_t getVectorSize(Vector*);
