@@ -172,11 +172,6 @@ void appendToVector_string(Vector* vector, void* data) {
             vector->data.capacity = new_capacity;
             vector->array = new_array;
         }
-        // if last char is \0 change it to space
-        if (*((char*)vector->array + vector->data.size) == '\0') {
-            *((char*)vector->array + vector->data.size) = ' ';
-            vector->data.size++;
-        }
         // add char to array
         *((char*)vector->array + vector->data.size) = *((char*)data + i);
         vector->data.size++;
